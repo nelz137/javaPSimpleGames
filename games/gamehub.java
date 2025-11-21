@@ -32,14 +32,16 @@ panel.add(Titlle,gbc);
 
 JButton btn1 =new JButton("Tic Tack Toe");
 JButton btn2 = new JButton("Ping Pong Ball");
-JButton btn3 = new JButton("Snake Game");
-JButton btn4 = new JButton("Bro Game");
+JButton btn3 = new JButton("RPS Game");
+//JButton btn4 = new JButton("Bro Game");
+//JButton btn5 = new JButton("RPS GPT");
 
 
 gbc.gridy=1;panel.add(btn1,gbc);
 gbc.gridy=2;panel.add(btn2,gbc);
 gbc.gridy=3;panel.add(btn3,gbc);
-gbc.gridy=4;panel.add(btn4,gbc);
+//gbc.gridy=4;panel.add(btn4,gbc);
+//gbc.gridy=5;panel.add(btn5,gbc);
 //gbc.gridy=5;panel.add(btn2,gbc);
 
 
@@ -47,6 +49,7 @@ gbc.gridy=4;panel.add(btn4,gbc);
 btn1.addActionListener(e-> new tic().startGame());
 btn2.addActionListener(e->new PongGame().startGame());
 //btn2.addActionListener(e->new snake().startGame());
+btn3.addActionListener(e -> RPSGPT1.startGame());
 
 add(panel);
 setVisible(true);

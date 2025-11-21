@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class PongGame extends JPanel implements ActionListener, KeyListener {
     // Panel size
-    private static final int WIDTH = 400;
+    private static final int WIDTH = 500;
     private static final int HEIGHT = 400;
 
     // Ball and paddle sizes
