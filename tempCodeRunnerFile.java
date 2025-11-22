@@ -1,3 +1,5 @@
+
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -16,8 +18,6 @@ public class FlyingBirdGame extends JPanel implements ActionListener, KeyListene
         setPreferredSize(new Dimension(500,500));
         setBackground(Color.cyan);
         setFocusable(true);
-        // smoother rendering
-        setDoubleBuffered(true);
         addKeyListener(this);
 
         timer = new Timer(20, this);
@@ -40,36 +40,24 @@ public class FlyingBirdGame extends JPanel implements ActionListener, KeyListene
         for(Rectangle p:pipes) g.fillRect(p.x,p.y,p.width,p.height);
         g.setColor(Color.black); g.setFont(new Font("Arial",Font.BOLD,20));
         g.drawString("Score: "+score,10,30);
-        if(gameOver){
-            g.setFont(new Font("Arial",Font.BOLD,40));
-            g.drawString("Game Over - Press ENTER",50,250);
-        }
+        if(gameOver){ g.setFont(new Font("Arial",Font.BOLD,40));
+            g.drawString("Game Over - Press ENTER",50,250); timer.stop(); }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (!gameOver) {
-            birdVel += 1; birdY += birdVel;
-
+        if(!gameOver){
+            birdVel+=1; birdY+=birdVel;
             ArrayList<Rectangle> remove = new ArrayList<>();
-            for (Rectangle p : pipes) { p.x -= 5; if (p.x + p.width < 0) remove.add(p); }
+            for(Rectangle p:pipes){ p.x-=5; if(p.x+50<0) remove.add(p); }
             pipes.removeAll(remove);
-            if (pipes.size() < 6) addPipe(600);
+            if(pipes.size()<6) addPipe(600);
 
-            Rectangle bird = new Rectangle(100, birdY, 30, 30);
-            boolean collided = false;
-            for (Rectangle p : pipes) { if (p.intersects(bird)) { collided = true; break; } }
-            if (collided || birdY < 0 || birdY > 470) {
-                gameOver = true;
-            }
+            Rectangle bird = new Rectangle(100,birdY,30,30);
+            for(Rectangle p:pipes) if(p.intersects(bird)) gameOver=true;
+            if(birdY<0||birdY>470) gameOver=true;
 
-            // count score only when the top pipe of a pair passes the bird x-position
-            for (Rectangle p : pipes) {
-                if (p.y == 0 && p.x + p.width == 100) score++;
-            }
-
-            if (gameOver) timer.stop();
-
+            for(Rectangle p:pipes) if(p.x+50==100) score++;
             repaint();
         }
     }
@@ -86,23 +74,8 @@ public class FlyingBirdGame extends JPanel implements ActionListener, KeyListene
     @Override public void keyTyped(KeyEvent e){}
 
     public static void main(String[] args){
-        SwingUtilities.invokeLater(() -> startGameStatic());
-    }
-
-    // Instance launcher — shows this panel in a disposable frame
-    public void startGame(){
         JFrame f = new JFrame("Flying Bird Game");
-        f.add(this);
-        f.pack();
-        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        f.setLocationRelativeTo(null);
-        f.setVisible(true);
-        SwingUtilities.invokeLater(() -> this.requestFocusInWindow());
-    }
-
-    // Static convenience method so external code (gamehub) can open the game
-    public static void startGameStatic(){
-        FlyingBirdGame game = new FlyingBirdGame();
-        game.startGame();
+        f.add(new FlyingBirdGame()); f.pack();
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); f.setVisible(true);
     }
 }

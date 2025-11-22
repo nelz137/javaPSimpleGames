@@ -83,11 +83,11 @@ public class RPSGPT1 {
     // --- GAME LOGIC --
     Random rand = new Random();
 
-  rockButton.addActionListener(e -> playRound("Rock", rand, resultArea));
-  paperButton.addActionListener(e -> playRound("Paper", rand, resultArea));
-  scissorsButton.addActionListener(e -> playRound("Scissors", rand, resultArea));
+  rockButton.addActionListener(e -> { playRound("Rock", rand, resultArea); e.getActionCommand(); });
+  paperButton.addActionListener(e -> { playRound("Paper", rand, resultArea); e.getActionCommand(); });
+  scissorsButton.addActionListener(e -> { playRound("Scissors", rand, resultArea); e.getActionCommand(); });
 
-  exitButton.addActionListener(e -> frame.dispose());
+  exitButton.addActionListener(e -> { frame.dispose(); e.getActionCommand(); });
 
     frame.setVisible(true);
   }
